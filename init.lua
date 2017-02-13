@@ -23,9 +23,9 @@ privatepath = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private')
 if privatepath == nil then
     hs.fs.mkdir(hs.fs.currentDir()..'/private')
 end
-privateconf = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private/awesomeconfig.lua')
+privateconf = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private/custom_config.lua')
 if privateconf ~= nil then
-    require('private/awesomeconfig')
+    require('private/custom_config')
 end
 
 hsreload_keys = hsreload_keys or {{"cmd", "shift", "ctrl"}, "R"}
@@ -194,12 +194,12 @@ end
 if not module_list then
     module_list = {
         "basicmode",
-        "widgets/netspeed",
+        -- "widgets/netspeed",
         "widgets/hcalendar",
-        "widgets/analogclock",
+        -- "widgets/analogclock",
         "widgets/music",
-        "modes/indicator",
-        "modes/clipshow",
+        -- "modes/indicator",
+        -- "modes/clipshow",
         "modes/hsearch",
     }
 end
