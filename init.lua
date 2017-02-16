@@ -44,6 +44,7 @@ Currently default disabled modules:
   - "widgets/analogclock",
   - "widgets/showtime",
   - "widgets/netspeed",
+  - "widgets/windowfocus",
 Enable them for your own use when needed.
 --]==============]
 if not module_list then
@@ -54,7 +55,6 @@ if not module_list then
         "widgets/music",
         "widgets/colors",
         "modes/hsearch",
-        "widgets/windowfocus",
     }
 end
 
