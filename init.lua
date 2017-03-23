@@ -54,7 +54,8 @@ if not module_list then
         "widgets/hcalendar",
         "widgets/music",
         "widgets/colors",
-        "modes/hsearch",
+        "widgets/clipboard",
+        "modes/hsearch",        
     }
 end
 
