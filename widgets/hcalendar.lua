@@ -1,5 +1,5 @@
-hcalbgcolor = {red=0,blue=0,green=0,alpha=0.3}
-hcaltitlecolor = {red=1,blue=1,green=1,alpha=0.3}
+hcalbgcolor = {red=0,blue=0,green=0,alpha=0.4}
+hcaltitlecolor = {red=2,blue=2,green=2,alpha=0.4}
 offdaycolor = {red=255/255,blue=120/255,green=120/255,alpha=1}
 hcaltodaycolor = {red=1,blue=1,green=1,alpha=0.2}
 midlinecolor = {red=1,blue=1,green=1,alpha=0.5}
