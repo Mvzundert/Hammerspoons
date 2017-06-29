@@ -68,8 +68,8 @@ function caffeinateUpdateMenuItem(state)
   if state then
     if not caffeinateTimeOut then
       caffeinateTimeOut = {
-        seconds = 3600,
-        string = "60 minutes"
+        seconds = nil,
+        string = "Indefinitely"
       }
     end
 
@@ -157,3 +157,8 @@ caffeinateCreateMenu()
 
 -- Create timer
 caffeinateTimer = hs.timer.doEvery(5, function() caffeinateCheckTimer() end)
+
+-- Set the idle display to true -- 
+hs.caffeinate.set('displayIdle', true)
+-- Always put the state on the value  specified--
+caffeinateUpdateMenuItem(true)
