@@ -55,7 +55,8 @@ if not module_list then
         "widgets/music",
         "widgets/colors",
         "widgets/clipboard",
-        "modes/hsearch",        
+        "widgets/caffeinate",
+        "modes/hsearch",
     }
 end
 
