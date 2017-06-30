@@ -83,17 +83,17 @@ Currently default disabled modules:
   - "widgets/showtime",
   - "widgets/netspeed",
   - "widgets/windowfocus",
+  - "widgets/caffeinate",
 Enable them for your own use when needed.
 --]==============]
 if not module_list then
     module_list = {
         "widgets/keybindings",
-        "widgets/hotkeys",        
+        "widgets/hotkeys",
         "widgets/hcalendar",
         "widgets/music",
         "widgets/colors",
         "widgets/clipboard",
-        "widgets/caffeinate",
         "modes/hsearch",
     }
 end
