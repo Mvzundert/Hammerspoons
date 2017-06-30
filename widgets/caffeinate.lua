@@ -1,16 +1,16 @@
 -- Set constants
-local Menu
-local Settings = require("hs.settings")
-local TimeOut = Settings.get("hs.TimeOut") or nil
-local Timestamp = Settings.get("hs.Timestamp") or nil
-local MenuIconOff = "./resources/caffeinateMenuOff.pdf"
-local MenuIconOn = "./resources/caffeinateMenuOn.pdf"
-local DefaultTimeOut = {
+local caffeinateMenu
+local caffeinateSettings = require("hs.settings")
+local caffeinateTimeOut = caffeinateSettings.get("hs.caffeinateTimeOut") or nil
+local caffeinateTimestamp = caffeinateSettings.get("hs.caffeinateTimestamp") or nil
+local caffeinateMenuIconOff = "./resources/caffeinateMenuOff.pdf"
+local caffeinateMenuIconOn = "./resources/caffeinateMenuOn.pdf"
+local caffeinateDefaultTimeOut = {
     seconds = nil,
     icon = "∞",
     title = "Indefinitely"
 }
-local MenuItems = {
+local caffeinateMenuItems = {
   {
     seconds = 900,
     title = "15 minutes"
@@ -38,116 +38,116 @@ local MenuItems = {
   }
 }
 -- Set functions
-function CheckTimer()
+function caffeinateCheckTimer()
   local currentTime = math.floor(hs.timer.secondsSinceEpoch())
-  if Timestamp ~= nil then
-    if TimeOut["seconds"] ~= nil then
-      if ( currentTime - TimeOut["seconds"] ) > Timestamp then
-        Toggle()
+  if caffeinateTimestamp ~= nil then
+    if caffeinateTimeOut["seconds"] ~= nil then
+      if ( currentTime - caffeinateTimeOut["seconds"] ) > caffeinateTimestamp then
+        caffeinateToggle()
       else
-        if not Menu then
-          CreateMenu()
+        if not caffeinateMenu then
+          caffeinateCreateMenu()
         else
-          local LockedUntilTimestamp = ( Timestamp + TimeOut["seconds"] ) - currentTime - 3600
-          local LockedUntil = os.date(" %H:%M:%S",LockedUntilTimestamp)
-          Menu:setTooltip("Caffeinate: Locked for: "..LockedUntil)
-          Menu:setTitle(LockedUntil)
+          local caffeinateLockedUntilTimestamp = ( caffeinateTimestamp + caffeinateTimeOut["seconds"] ) - currentTime - 3600
+          local caffeinateLockedUntil = os.date(" %H:%M:%S",caffeinateLockedUntilTimestamp)
+          caffeinateMenu:setTooltip("Caffeinate: Locked for: "..caffeinateLockedUntil)
+          caffeinateMenu:setTitle(caffeinateLockedUntil)
         end
       end
     else
-        if TimeOut["icon"] ~= nil  then
-            Menu:setTitle(" "..TimeOut["icon"])
+        if caffeinateTimeOut["icon"] ~= nil  then
+            caffeinateMenu:setTitle(" "..caffeinateTimeOut["icon"])
         else
-            Menu:setTitle(nil)
+            caffeinateMenu:setTitle(nil)
         end
     end
   else
-    Menu:setTooltip("Caffeinate")
-    Menu:setTitle(nil)
+    caffeinateMenu:setTooltip("Caffeinate")
+    caffeinateMenu:setTitle(nil)
   end
 end
-function Toggle()
-  UpdateMenuItem(hs.caffeinate.toggle("displayIdle"))
+function caffeinateToggle()
+  caffeinateUpdateMenuItem(hs.caffeinate.toggle("displayIdle"))
 end
 
-function UpdateMenuItem(state)
-  if not Menu then
-    CreateMenu()
+function caffeinateUpdateMenuItem(state)
+  if not caffeinateMenu then
+    caffeinateCreateMenu()
   end
   if state then
-    if not TimeOut then
-      TimeOut = DefaultTimeOut
-    end
-    informativeText = "Enabled for "..TimeOut["title"]
-    Timestamp = math.floor(hs.timer.secondsSinceEpoch())
-    Menu:setTooltip("Caffeinate: "..informativeText)
-    Menu:setIcon(MenuIconOn)
+    if not caffeinateTimeOut then
+      caffeinateTimeOut = caffeinateDefaultTimeOut
+    end    
+    informativeText = "Enabled for "..caffeinateTimeOut["title"]
+    caffeinateTimestamp = math.floor(hs.timer.secondsSinceEpoch())
+    caffeinateMenu:setTooltip("Caffeinate: "..informativeText)
+    caffeinateMenu:setIcon(caffeinateMenuIconOn)
     hs.notify.new({ title = "Caffeinate", informativeText = informativeText }):send()
   else
-    Timestamp = nil
-    TimeOut = nil
-    Menu:setIcon(MenuIconOff)
-    Menu:setTooltip("Caffeinate")
+    caffeinateTimestamp = nil
+    caffeinateTimeOut = nil
+    caffeinateMenu:setIcon(caffeinateMenuIconOff)
+    caffeinateMenu:setTooltip("Caffeinate")
     hs.notify.new({ title = "Caffeinate", informativeText = "Disabled" }):send()
   end
-  Settings.set("hs.Timestamp", Timestamp)
-  Settings.set("hs.TimeOut", TimeOut)
+  caffeinateSettings.set("hs.caffeinateTimestamp", caffeinateTimestamp)
+  caffeinateSettings.set("hs.caffeinateTimeOut", caffeinateTimeOut)
 end
 
-function UpdateTimeout(timeout)
-  Timestamp = math.floor(hs.timer.secondsSinceEpoch())
-  Settings.set("hs.Timestamp", Timestamp)
-  TimeOut = timeout
-  Menu:setTooltip("Caffeinate: Enabled for "..TimeOut["title"])
-  if not Timestamp then
-    Toggle()
+function caffeinateUpdateTimeout(timeout)
+  caffeinateTimestamp = math.floor(hs.timer.secondsSinceEpoch())
+  caffeinateSettings.set("hs.caffeinateTimestamp", caffeinateTimestamp)
+  caffeinateTimeOut = timeout
+  caffeinateMenu:setTooltip("Caffeinate: Enabled for "..caffeinateTimeOut["title"])
+  if not caffeinateTimestamp then
+    caffeinateToggle()
   else
-    Menu:setIcon(MenuIconOn)
-    Settings.set("hs.TimeOut", TimeOut)
+    caffeinateMenu:setIcon(caffeinateMenuIconOn)
+    caffeinateSettings.set("hs.caffeinateTimeOut", caffeinateTimeOut)
   end
 end
 
-function CreateMenu()
-  Menu = hs.menubar.new(true)
-  Menu:setTooltip("Caffeinate")
-  Menu:setIcon(MenuIconOff)
-  Menu:setMenu(PopulateMenu)
-  if Timestamp then
+function caffeinateCreateMenu()
+  caffeinateMenu = hs.menubar.new(true)
+  caffeinateMenu:setTooltip("Caffeinate")
+  caffeinateMenu:setIcon(caffeinateMenuIconOff)
+  caffeinateMenu:setMenu(caffeinatePopulateMenu)
+  if caffeinateTimestamp then
     hs.caffeinate.toggle("displayIdle")
-    Menu:setIcon(MenuIconOn)
+    caffeinateMenu:setIcon(caffeinateMenuIconOn)
   end
 end
 -- Dynamic menu by cmsj https://github.com/Hammerspoon/hammerspoon/issues/61#issuecomment-64826257
-PopulateMenu = function(key)
-  MenuData = {}
-  for timeoutKey, timeoutItem in pairs(MenuItems) do
+caffeinatePopulateMenu = function(key)
+  caffeinateMenuData = {}
+  for timeoutKey, timeoutItem in pairs(caffeinateMenuItems) do
     table.insert(
-      MenuData,
+      caffeinateMenuData,
       {
         title = timeoutItem["title"],
-        fn = function() UpdateTimeout(timeoutItem) end
+        fn = function() caffeinateUpdateTimeout(timeoutItem) end
       }
     )
   end
-  if TimeOut then
+  if caffeinateTimeOut then
     table.insert(
-      MenuData,
+      caffeinateMenuData,
       1,
       {
-        title = "Current: "..TimeOut["title"],
-        fn = function() Toggle() end
+        title = "Current: "..caffeinateTimeOut["title"],
+        fn = function() caffeinateToggle() end
       }
     )
-    table.insert(MenuData, 2, { title = "-" })
+    table.insert(caffeinateMenuData, 2, { title = "-" })
   end
-  return MenuData
+  return caffeinateMenuData
 end
 
 -- Create menu item
-CreateMenu()
+caffeinateCreateMenu()
 -- Create timer
-Timer = hs.timer.doEvery(1, function() CheckTimer() end)
+caffeinateTimer = hs.timer.doEvery(1, function() caffeinateCheckTimer() end)
 -- Set the idle display to true --
 hs.caffeinate.set('displayIdle', true)
 -- Always put the state on the value  specified--
-UpdateMenuItem(true)
+caffeinateUpdateMenuItem(true)
